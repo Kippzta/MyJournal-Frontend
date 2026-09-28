@@ -35,4 +35,11 @@ export class Auth {
 
   }
 
+  buildAuthHeader(credentials: Credentials): string {
+
+    const encoded = btoa(`${credentials.username}:${credentials.password}`)
+
+    return `Basic ${encoded}`;
+  }
+
 }
