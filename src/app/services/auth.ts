@@ -1,5 +1,7 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Inject, Injectable, signal } from '@angular/core';
 import { Credentials } from '../models/credentials';
+import { HttpClient } from '@angular/common/http';
+import { Post } from '../models/post';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +10,10 @@ export class Auth {
 
   // nyckeln som används för att lagra credentials i sessionStorage
   private readonly authStorageKey = 'credentials';
+
+  private readonly postsUrl = 'http://localhost:8080/api/posts'
+
+  private http = inject(HttpClient);
 
   // signal som håller reda på om användaren är inloggad eller inte. 
   // startar med att kolla om det finns credentials sessionStorage
@@ -35,11 +41,39 @@ export class Auth {
 
   }
 
+  // Basic Auth header från credentials för att skicka med i varje request till servern.
+  // https://developer.mozilla.org/en-US/docs/Web/API/Window/btoa
   buildAuthHeader(credentials: Credentials): string {
 
-    const encoded = btoa(`${credentials.username}:${credentials.password}`)
 
+    const raw = `${credentials.username}:${credentials.password}`;
+
+    // Var tvungen att göra så btoa kan hantera svenska tecken, 
+    // gör om texten till en lista av bytes i UTF-8 format
+    const utf8Bytes = new TextEncoder().encode(raw);
+
+
+    //btoa metoden kräver en sträng som indata inte en lista 
+    // packar upp byte listan till separata värden
+    // sedan bygger en sträng av varje byte värde
+    const binaryString = String.fromCharCode(...utf8Bytes);
+
+
+    // gör om strängen till Base64 
+    const encoded = btoa(binaryString);
+
+    // returnerar en sträng som kan användas som värde i Authorization headern
     return `Basic ${encoded}`;
   }
+
+  login(credentials: Credentials) {
+
+    return this.http.get<Post[]>(this.postsUrl, {
+      headers: { Authorization: this.buildAuthHeader(credentials) }
+    });
+
+  };
+
+
 
 }
