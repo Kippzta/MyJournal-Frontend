@@ -1,0 +1,26 @@
+<h1>Create account</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <label>
+    Username
+    <input formControlName="username" type="text" />
+  </label>
+
+  <label>
+    Password
+    <input formControlName="password" type="password" />
+  </label>
+
+  <button type="submit">Register</button>
+
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
+
+@if (registerSuccessMsg()) {
+  <p>{{ registerSuccessMsg() }}</p>
+}
+
+@if (registerFailedMsg()) {
+  <p>{{ registerFailedMsg() }}</p>
+}

@@ -2,22 +2,26 @@ import { computed, inject, Inject, Injectable, signal } from '@angular/core';
 import { Credentials } from '../models/credentials';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../models/post';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class Auth {
 
   // nyckeln som används för att lagra credentials i sessionStorage
   private readonly authStorageKey = 'credentials';
 
-  private readonly postsUrl = 'http://localhost:8080/api/posts'
+  private readonly postsUrl = 'http://localhost:8080/api/posts';
+
+  private readonly regUrl = 'http://localhost:8080/api/auth/register';
 
   private http = inject(HttpClient);
 
   // signal som håller reda på om användaren är inloggad eller inte. 
   // startar med att kolla om det finns credentials sessionStorage
-  credentials = signal<Credentials | null>(this.checkStorage())
+  credentials = signal<Credentials | null>(this.checkStorage());
 
   // computed uppdaterar sig automatiskt när signalen credentials ändras 
   // och returnerar true om credentials inte är null, annars false.
@@ -74,8 +78,16 @@ export class Auth {
   }
 
 
-// Anropar en skyddad endpoint för att verifiera uppgifterna. 
-// postsen som kommer tillbaks används inte, bara kollar att anropet lyckas eller inte 
+  register(credentials: Credentials) {
+
+  
+    return this.http.post<User>(this.regUrl, credentials);
+
+  }
+
+
+  // Anropar en skyddad endpoint för att verifiera uppgifterna. 
+  // postsen som kommer tillbaks används inte, bara kollar att anropet lyckas eller inte 
   login(credentials: Credentials) {
 
     const request = this.http.get<Post[]>(this.postsUrl, {
