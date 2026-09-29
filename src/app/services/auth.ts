@@ -41,7 +41,14 @@ export class Auth {
 
   }
 
-  // Basic Auth header från credentials för att skicka med i varje request till servern.
+  private save(credentials: Credentials) {
+    this.credentials.set(credentials);
+    sessionStorage.setItem(this.authStorageKey, JSON.stringify(credentials));
+  }
+
+
+
+  // Basic Auth header från credentials för att skicka med i varje requestu till servern.
   // https://developer.mozilla.org/en-US/docs/Web/API/Window/btoa
   buildAuthHeader(credentials: Credentials): string {
 
@@ -66,14 +73,22 @@ export class Auth {
     return `Basic ${encoded}`;
   }
 
+
+// Anropar en skyddad endpoint för att verifiera uppgifterna. 
+// postsen som kommer tillbaks används inte, bara kollar att anropet lyckas eller inte 
   login(credentials: Credentials) {
 
-    return this.http.get<Post[]>(this.postsUrl, {
+    const request = this.http.get<Post[]>(this.postsUrl, {
       headers: { Authorization: this.buildAuthHeader(credentials) }
     });
 
+    request.subscribe({
+      next: () => this.save(credentials),
+    })
+    
+    return request;
   };
 
-
+  
 
 }
