@@ -69,7 +69,7 @@ export class Auth {
     // gör om strängen till Base64 
     const encoded = btoa(binaryString);
 
-    // returnerar en sträng som kan användas som värde i Authorization headern
+    // returnerar authorization headervärdet
     return `Basic ${encoded}`;
   }
 
@@ -88,7 +88,5 @@ export class Auth {
     
     return request;
   };
-
-  
 
 }
