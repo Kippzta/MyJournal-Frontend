@@ -1,4 +1,4 @@
-import { computed, createNgModule, inject, Inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Inject, Injectable, signal } from '@angular/core';
 import { Credentials } from '../models/credentials';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../models/post';
@@ -45,9 +45,11 @@ export class Auth {
 
   }
 
-  private save(credentials: Credentials) {
+  save(credentials: Credentials) {
+
     this.credentials.set(credentials);
     sessionStorage.setItem(this.authStorageKey, JSON.stringify(credentials));
+
   }
 
 
@@ -88,16 +90,12 @@ export class Auth {
   // postsen som kommer tillbaks används inte, bara kollar att anropet lyckas eller inte 
   login(credentials: Credentials) {
 
+    return this.http.get<Post[]>(this.postsUrl, {
 
-    const request = this.http.get<Post[]>(this.postsUrl, {
       headers: { Authorization: this.buildAuthHeader(credentials) }
+
     });
 
-    request.subscribe({
-      next: () => this.save(credentials),
-    })
-    
-    return request;
   };
 
 }

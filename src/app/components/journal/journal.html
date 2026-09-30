@@ -1,0 +1,16 @@
+<h1>My Journal</h1>
+
+@for (post of posts(); track post.id) {
+    
+    <div id="allPostsDiv">
+
+        <p>{{ post.note }}</p>
+        <p>{{ post.mood }}</p>
+        <p>{{ post.createdAt | date: "MMM dd, yyyy 'at' hh:mm a" : undefined : 'en'}}</p>
+
+    </div>
+} @empty {
+
+    <p>No entries have been made yet.</p>
+    
+}
