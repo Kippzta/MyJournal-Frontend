@@ -38,16 +38,20 @@ export class Register {
     }
 
     this.auth.register(this.form.value as Credentials).subscribe({
-      
+
       next: () => {
 
         this.registerSuccessMsg.set('User successfully registered!')
-        setTimeout(() => this.router.navigate(['/login']), 1500);
+        setTimeout(() => this.router.navigate(['/login']), 1000);
 
       },
 
-      error: () => {
+      error: (err) => {
 
+        if(err.status == 409) {
+          this.registerFailedMsg.set("Username already exists!")
+        } else
+          
         this.registerFailedMsg.set('Registration failed, please try again!');
 
       }
@@ -57,7 +61,9 @@ export class Register {
   };
 
   cancel() {
+
     this.router.navigate(['/']);
+
   }
 
 }

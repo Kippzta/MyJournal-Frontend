@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { Auth } from '../../services/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Credentials } from '../../models/credentials';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -27,28 +27,45 @@ export class Login {
 
   onSubmit() {
 
-    if(this.form.invalid) {
+    if (this.form.invalid) {
 
-      this.loginFailedMsg.set("Please enter username and password")
+      this.loginFailedMsg.set("Please enter username and password.")
+      this.resetForm();
+      return
+
     }
 
-    this.auth.login(this.form.value as Credentials).subscribe({
+      const credentials = this.form.value as Credentials;
 
-      next: () => {
-        this.router.navigate(['/']);
-      },
+      this.auth.login(credentials).subscribe({
+        next: () => {
+          this.auth.save(credentials);
+          this.router.navigate(['/journal-feed']);
+        
+        },
 
-      error: () => {
+        error: () => {
 
-        this.loginFailedMsg.set('Wrong username or password.');
-      }
+          this.loginFailedMsg.set('Wrong username or password.');
+          this.resetForm();
 
-    });
+        },
+      });
+    
+  }
+
+  resetForm() {
+
+    this.form.reset();
 
   }
 
   cancel() {
+    
     this.router.navigate(['/']);
-  }
 
+  }
 }
+ 
+
+
