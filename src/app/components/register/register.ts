@@ -34,18 +34,22 @@ export class Register {
     if(this.form.invalid) {
       this.registerFailedMsg.set('Please enter valid username (min: 3 char) and password (min: 4)');
       return;
+
     }
 
     this.auth.register(this.form.value as Credentials).subscribe({
-
-
+      
       next: () => {
+
         this.registerSuccessMsg.set('User successfully registered!')
         setTimeout(() => this.router.navigate(['/login']), 1500);
+
       },
 
       error: () => {
+
         this.registerFailedMsg.set('Registration failed, please try again!');
+
       }
 
     })
