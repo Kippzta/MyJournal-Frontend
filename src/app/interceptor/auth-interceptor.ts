@@ -14,13 +14,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(Auth);
   const credentials = auth.credentials();
 
-  // Om inga inloggningsuppgifter finns, skicka anropet till backend
+  // Om inga inloggningsuppgifter finns, skicka anropet t1230ill backend
   if (credentials === null) {
 
     return next(req);
   }
 
-  // Om användaren är inloggad, kopirerar requesten till en ny med Basic Auth headern
+  // Om användaren är inloggad, kopirerar requesten till en ny med Basic Auth headern ifylld
   // och skicka den till backend
   const authReq = req.clone({
     setHeaders: { Authorization: auth.buildAuthHeader(credentials) },

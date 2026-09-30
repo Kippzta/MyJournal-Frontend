@@ -1,0 +1,22 @@
+<h1>Log in</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <label>
+        Username
+        <input formControlName="username" type="text">
+    </label>
+
+    <label>
+        Password
+        <input formControlName="password" type="password">
+    </label>
+
+    <button type="submit" [disabled]="form.invalid">Login</button>
+
+    <button type="button" (click)="cancel()">Cancel</button>
+</form>
+
+@if (loginFailedMsg()) {
+<p>{{ loginFailedMsg() }}</p>
+}
