@@ -1,3 +1,13 @@
+@if (auth.isLoggedIn()) {
 
+    <button (click)="logout()">Log out</button>
+}
+
+@else {
+
+    <a routerLink="/login">Log in</a> <br>
+    <a routerLink="/register">Register</a>
+
+}
 
 <router-outlet />
