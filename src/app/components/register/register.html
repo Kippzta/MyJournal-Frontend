@@ -12,7 +12,7 @@
     <input formControlName="password" type="password" />
   </label>
 
-  <button type="submit">Register</button>
+  <button type="submit" [disabled]="form.invalid">Register</button>
 
   <button type="button" (click)="cancel()">Cancel</button>
 </form>

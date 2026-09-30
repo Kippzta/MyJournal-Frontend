@@ -1,4 +1,4 @@
-import { computed, inject, Inject, Injectable, signal } from '@angular/core';
+import { computed, createNgModule, inject, Inject, Injectable, signal } from '@angular/core';
 import { Credentials } from '../models/credentials';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../models/post';
@@ -77,10 +77,8 @@ export class Auth {
     return `Basic ${encoded}`;
   }
 
-
   register(credentials: Credentials) {
 
-  
     return this.http.post<User>(this.regUrl, credentials);
 
   }
@@ -89,6 +87,7 @@ export class Auth {
   // Anropar en skyddad endpoint för att verifiera uppgifterna. 
   // postsen som kommer tillbaks används inte, bara kollar att anropet lyckas eller inte 
   login(credentials: Credentials) {
+
 
     const request = this.http.get<Post[]>(this.postsUrl, {
       headers: { Authorization: this.buildAuthHeader(credentials) }

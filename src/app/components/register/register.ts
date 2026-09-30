@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Credentials } from '../../models/credentials';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
@@ -23,15 +23,21 @@ export class Register {
 
   form = new FormGroup({
 
-    username: new FormControl(''),
+    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.pattern(/\S/)]),
 
-    password: new FormControl(''),
+    password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern(/\S/)]),
 
   });
 
   onSubmit() {
 
+    if(this.form.invalid) {
+      this.registerFailedMsg.set('Please enter valid username (min: 3 char) and password (min: 4)');
+      return;
+    }
+
     this.auth.register(this.form.value as Credentials).subscribe({
+
 
       next: () => {
         this.registerSuccessMsg.set('User successfully registered!')
