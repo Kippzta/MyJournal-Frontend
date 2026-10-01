@@ -1,16 +1,44 @@
 <h1>My Journal</h1>
 
+<form [formGroup]="journalForm" (ngSubmit)="onSubmit()">
+
+    <label>
+        Note
+        <textarea formControlName="note"></textarea>
+    </label>
+
+    <label>
+        Mood
+        <select formControlName="mood">
+            @for (mood of moods; track mood){
+            <option [value]="mood">{{ moodEmoji[mood] }} {{ mood }}</option>
+            }
+        </select>
+    </label>
+
+    <button type="submit" [disabled]="journalForm.invalid">Add entry</button>
+</form>
+
+@if (createPostFailedMsg()) {
+<p>{{ createPostFailedMsg() }}</p>
+}
+
+@if (createPostSuccessMsg()) {
+
+<p> {{ createPostSuccessMsg() }}</p>
+
+}
+
 @for (post of posts(); track post.id) {
-    
-    <div id="allPostsDiv">
 
-        <p>{{ post.note }}</p>
-        <p>{{ post.mood }}</p>
-        <p>{{ post.createdAt | date: "MMM dd, yyyy 'at' hh:mm a" : undefined : 'en'}}</p>
+<div class="postEntries">
 
-    </div>
+    <p> {{ moodEmoji[post.mood] }} {{ post.note }}</p>
+    <p>{{ post.createdAt | date: "d MMMM y 'at' HH:mm" : undefined : 'en'}}</p>
+
+</div>
 } @empty {
 
-    <p>No entries have been made yet.</p>
-    
+<p>No entries have been made yet.</p>
+
 }
