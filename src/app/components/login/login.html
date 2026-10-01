@@ -1,6 +1,6 @@
 <h1>Log in</h1>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
     <label>
         Username
@@ -12,13 +12,13 @@
         <input formControlName="password" type="password">
     </label>
 
-    <button type="submit" [disabled]="form.invalid">Login</button>
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
 
     <button type="button" (click)="cancel()">Cancel</button>
 </form>
 
 @if (loginFailedMsg()) {
-<p>{{ loginFailedMsg() }}
+<p class="errorMsg">{{ loginFailedMsg() }}
     Don't have an account?  <a routerLink="/register">Register here</a>
 </p>
 }

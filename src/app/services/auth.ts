@@ -59,6 +59,7 @@ export class AuthService {
   buildAuthHeader(credentials: Credentials): string {
 
 
+    // username och password i vanligt textformat, separerade med kolon, som krävs för Basic Auth
     const raw = `${credentials.username}:${credentials.password}`;
 
     // Var tvungen att göra så btoa kan hantera svenska tecken, 
