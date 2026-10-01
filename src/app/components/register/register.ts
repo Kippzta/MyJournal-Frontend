@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Credentials } from '../../models/credentials';
 import { Router } from '@angular/router';
-import { Auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ export class Register {
 
   private router = inject(Router)
 
-  private auth = inject(Auth);
+  private auth = inject(AuthService);
 
   registerSuccessMsg = signal('');
 

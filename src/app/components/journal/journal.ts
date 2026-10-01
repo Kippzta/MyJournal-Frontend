@@ -3,7 +3,10 @@ import { PostService } from '../../services/post';
 import { Post } from '../../models/post';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Mood, MOOD_EMOJI } from '../../models/mood';
+import { Mood, MOOD_EMOJI, MOODS } from '../../models/mood';
+import { StatisticsService } from '../../services/statistics';
+import { PostStatistics } from '../../models/post-statistics';
+
 @Component({
   selector: 'app-journal',
   imports: [DatePipe, ReactiveFormsModule],
@@ -15,15 +18,35 @@ export class Journal implements OnInit{
 
   private postService = inject(PostService);
 
+  private statisticsService = inject(StatisticsService);
+
   protected moodEmoji = MOOD_EMOJI;
 
-  moods: Mood[] = ['HAPPY', 'SAD', 'MOTIVATED', 'ANGRY', 'SUSPICIOUS']
+  moods = MOODS;
+
+  // signal för att visa eller dölja statistiksektionen i journalen
+  showStatistics = signal(false);
+
+  // signal för att lagra statistikdata som hämtas från backend
+  statistics = signal<PostStatistics | null>(null);
 
   createPostFailedMsg = signal('');
 
   createPostSuccessMsg = signal('');
 
+  // signal för att lagra alla journalposter som hämtas från backend
   posts = signal<Post[]>([]);
+
+
+
+  filterStatsForm = new FormGroup({
+   
+    startDate: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+
+    endDate: new FormControl('', {nonNullable: true, validators: [Validators.required]}),
+
+  })
+
 
   journalForm = new FormGroup({
 
@@ -33,6 +56,8 @@ export class Journal implements OnInit{
 
   })
  
+
+  // Metod som körs när användaren skickar in formuläret för att skapa en ny post.
   onSubmit() {
 
     if (this.journalForm.invalid) {
@@ -65,6 +90,28 @@ export class Journal implements OnInit{
       next: (posts) => this.posts.set(posts),
 
     });
+
+  }
+
+  toggleStats() {
+
+    this.showStatistics.set(!this.showStatistics());
+
+  }
+
+  onStatsSubmit() {
+
+    if(this.filterStatsForm.invalid){
+      return;
+    }
+
+    // Plockar ut start- och slutdatum som användaren valt i filterStatsForm 
+    const { startDate, endDate } = this.filterStatsForm.getRawValue();
+
+    this.statisticsService.getStatistics(startDate, endDate).subscribe({
+      next: (stats) => this.statistics.set(stats),
+
+    })
 
   }
 

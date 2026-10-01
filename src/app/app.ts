@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet, RouterLink } from '@angular/router';
-import { Auth } from './services/auth';
+import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ export class App {
 
   protected readonly title = signal('RÖV');
 
-  protected auth = inject(Auth);
+  protected auth = inject(AuthService);
 
   private router = inject(Router);
 
