@@ -58,6 +58,8 @@ export class Journal implements OnInit{
  
 
   // Metod som körs när användaren skickar in formuläret för att skapa en ny post.
+  // Skickar en POST-förfrågan till backend med hjälp av PostService 
+  // och uppdaterar signalen posts med den nya posten om det lyckas.
   onSubmit() {
 
     if (this.journalForm.invalid) {
@@ -68,6 +70,7 @@ export class Journal implements OnInit{
     }
 
 
+    // Plockar ut värdena från journalForm och skapar ett nytt post-objekt.
     const newPost = this.journalForm.getRawValue();
 
     this.postService.createPost(newPost).subscribe({
@@ -76,6 +79,7 @@ export class Journal implements OnInit{
         this.createPostSuccessMsg.set('Note created!');
         this.journalForm.reset();
       },
+
       error: () => {
 
         this.createPostFailedMsg.set('Could not create a note. Please try again.')
@@ -83,6 +87,8 @@ export class Journal implements OnInit{
     });
   }
 
+  // Funktion som körs när komponenten initieras. 
+  // Hämtar alla journalposter från backend och uppdaterar signalen posts med den hämtade datan.
   ngOnInit() {
 
     this.postService.getPosts().subscribe({
@@ -105,9 +111,13 @@ export class Journal implements OnInit{
       return;
     }
 
+
     // Plockar ut start- och slutdatum som användaren valt i filterStatsForm 
     const { startDate, endDate } = this.filterStatsForm.getRawValue();
 
+
+    // hämtar statistikdata från backend med hjälp av StatisticsService
+    //  och uppdaterar signalen statistics med den hämtade datan.
     this.statisticsService.getStatistics(startDate, endDate).subscribe({
       next: (stats) => this.statistics.set(stats),
 
