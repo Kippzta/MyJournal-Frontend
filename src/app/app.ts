@@ -13,8 +13,6 @@ import { AuthService } from './services/auth';
 
 export class App {
 
-  protected readonly title = signal('RÖV');
-
   protected auth = inject(AuthService);
 
   private router = inject(Router);
