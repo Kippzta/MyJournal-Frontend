@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { PostService } from '../../services/post';
 import { Post } from '../../models/post';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Mood, MOOD_EMOJI, MOODS } from '../../models/mood';
 import { StatisticsService } from '../../services/statistics';
@@ -9,7 +9,7 @@ import { PostStatistics } from '../../models/post-statistics';
 
 @Component({
   selector: 'app-journal',
-  imports: [DatePipe, ReactiveFormsModule],
+  imports: [DatePipe, ReactiveFormsModule, DecimalPipe],
   templateUrl: './journal.html',
   styleUrl: './journal.css',
 })

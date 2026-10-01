@@ -1,6 +1,6 @@
 <h1>Create account</h1>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="regForm" (ngSubmit)="onSubmit()">
 
   <label>
     Username
@@ -12,15 +12,15 @@
     <input formControlName="password" type="password" />
   </label>
 
-  <button type="submit" [disabled]="form.invalid">Register</button>
+  <button type="submit" [disabled]="regForm.invalid">Register</button>
 
   <button type="button" (click)="cancel()">Cancel</button>
 </form>
 
 @if (registerSuccessMsg()) {
-  <p>{{ registerSuccessMsg() }}</p>
+  <p class="successMsg">{{ registerSuccessMsg() }}</p>
 }
 
 @if (registerFailedMsg()) {
-  <p>{{ registerFailedMsg() }}</p>
+  <p class="errorMsg">{{ registerFailedMsg() }}</p>
 }

@@ -1,1 +1,193 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+:root {
+  --paper: #f6f2e8;
+  --ink: #2b2a26;
+  --ink-soft: #6b6559;
+  --line: #ddd4c0;
+  --accent: #4f6f5c;
+  --accent-soft: #e4ebe4;
+  --danger: #a4493a;
+  --danger-soft: #f5e6e2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: 2rem;
+  margin: 0 0 1.5rem;
+  color: var(--ink);
+}
+
+/* ---------- Layout ---------- */
+
+app-root {
+  display: block;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ---------- Toppnavigering (login/register/logout) ---------- */
+
+app-root > a,
+app-root > button {
+  display: inline-block;
+  margin-right: 12px;
+}
+
+/* ---------- Formulär ---------- */
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  flex: 1 1 160px;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ---------- Knappar ---------- */
+
+button {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 9px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+button[type='button'] {
+  background: transparent;
+  color: var(--ink-soft);
+  border-color: var(--line);
+}
+
+button:disabled {
+  background: var(--line);
+  border-color: var(--line);
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* ---------- Länkar ---------- */
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Postentries (journal.html) ---------- */
+
+.postEntries {
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+}
+
+.postEntries p {
+  margin: 0;
+}
+
+.postEntries p:first-child {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.postEntries p:last-child {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- Statistikpanel ---------- */
+
+.statsPanel {
+  padding: 16px;
+  margin-bottom: 1.5rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.statsPanel p {
+  margin: 4px 0;
+}
+
+.errorMsg {
+  padding: 8px 12px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.successMsg {
+  padding: 8px 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}

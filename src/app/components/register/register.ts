@@ -21,23 +21,32 @@ export class Register {
 
   registerFailedMsg = signal('');
 
-  form = new FormGroup({
+  regForm = new FormGroup({
 
-    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.pattern(/\S/)]),
+    username: new FormControl('', {nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.pattern(/\S/)]}),
 
-    password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern(/\S/)]),
+    password: new FormControl('', {nonNullable: true, validators: [Validators.required, Validators.minLength(4), Validators.pattern(/\S/)]}),
 
   });
 
   onSubmit() {
 
-    if(this.form.invalid) {
+    if(this.regForm.invalid) {
       this.registerFailedMsg.set('Please enter valid username (min: 3 char) and password (min: 4)');
       return;
 
     }
 
-    this.auth.register(this.form.value as Credentials).subscribe({
+    const { username, password } = this.regForm.getRawValue();
+    const credentials: Credentials = {
+
+      username: username.trim(),
+
+      password: password.trim(),
+
+    }
+
+    this.auth.register(credentials).subscribe({
 
       next: () => {
 

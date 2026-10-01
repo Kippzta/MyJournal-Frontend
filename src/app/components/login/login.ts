@@ -18,16 +18,16 @@ export class Login {
 
   loginFailedMsg = signal('');
 
-  form = new FormGroup({
+  loginForm = new FormGroup({
 
-    username: new FormControl('', [Validators.required, Validators.pattern(/\S/)]),
+    username: new FormControl('',{nonNullable: true, validators: [Validators.required, Validators.pattern(/\S/)]}),
 
-    password: new FormControl('', [Validators.required, Validators.pattern(/\S/)]),
+    password: new FormControl('', {nonNullable:true, validators: [Validators.required, Validators.pattern(/\S/)]}),
   });
 
   onSubmit() {
 
-    if (this.form.invalid) {
+    if (this.loginForm.invalid) {
 
       this.loginFailedMsg.set("Please enter username and password.")
       this.resetForm();
@@ -35,7 +35,14 @@ export class Login {
 
     }
 
-      const credentials = this.form.value as Credentials;
+      const { username, password } = this.loginForm.getRawValue();
+      const credentials: Credentials = {
+
+        username: username.trim(),
+
+        password: password.trim(),      
+
+      };
 
       this.auth.login(credentials).subscribe({
         next: () => {
@@ -56,13 +63,13 @@ export class Login {
 
   resetForm() {
 
-    this.form.reset();
+    this.loginForm.reset();
 
   }
 
   cancel() {
     
-    this.router.navigate(['/']);
+    this.router.navigate(['/register']);
 
   }
 }

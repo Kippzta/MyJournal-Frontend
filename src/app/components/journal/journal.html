@@ -19,14 +19,15 @@
     <button type="submit" [disabled]="journalForm.invalid">Add entry</button>
 </form>
 
-<button type="button" (click)="toggleStats()">Show Statistics</button>
+<button type="button" (click)="toggleStats()">
+   {{ showStatistics() ? 'Back to journal' : 'Show statistics' }}</button>
 
 @if (createPostFailedMsg()) {
-<p>{{ createPostFailedMsg() }}</p>
+<p class="errorMsg">{{ createPostFailedMsg() }}</p>
 }
 
 @if (createPostSuccessMsg()) {
-<p> {{ createPostSuccessMsg() }}</p>
+<p class="successMsg"> {{ createPostSuccessMsg() }}</p>
 }
 
 @if (showStatistics()) {
@@ -44,7 +45,7 @@
         <label>To
             <input formControlName="endDate" type="date">
         </label>
-        <button type="submit" [disabled]="filterStatsForm.invalid">Show</button>
+        <button type="submit" [disabled]="filterStatsForm.invalid">Update</button>
     </form>
 
     @if (statistics(); as stats) {
@@ -53,7 +54,7 @@
 
         @for (stat of stats.moodStats; track stat.mood) {
 
-            <p>{{ moodEmoji[stat.mood] }} {{stat.mood }}: {{ stat.percentage }}% ({{ stat.count }}) </p>
+            <p>{{ moodEmoji[stat.mood] }} {{stat.mood }}: {{ stat.percentage | number: '1.0-0' }}% ({{ stat.count }}) </p>
         }
 
 
