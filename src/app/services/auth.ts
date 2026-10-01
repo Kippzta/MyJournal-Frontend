@@ -8,7 +8,7 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 
-export class Auth {
+export class AuthService {
 
   // nyckeln som används för att lagra credentials i sessionStorage
   private readonly authStorageKey = 'credentials';

@@ -1,5 +1,5 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { Auth } from '../services/auth';
+import { AuthService } from '../services/auth';
 import { inject } from '@angular/core';
 
 
@@ -11,7 +11,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 
   // Hämtar Auth service och kollar om användaren är inloggad
-  const auth = inject(Auth);
+  const auth = inject(AuthService);
   const credentials = auth.credentials();
 
   // Om inga inloggningsuppgifter finns, skicka anropet t1ill backend

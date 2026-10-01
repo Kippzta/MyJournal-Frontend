@@ -15,30 +15,74 @@
             }
         </select>
     </label>
-
+    <br>
     <button type="submit" [disabled]="journalForm.invalid">Add entry</button>
 </form>
+
+<button type="button" (click)="toggleStats()">Show Statistics</button>
 
 @if (createPostFailedMsg()) {
 <p>{{ createPostFailedMsg() }}</p>
 }
 
 @if (createPostSuccessMsg()) {
-
 <p> {{ createPostSuccessMsg() }}</p>
+}
+
+@if (showStatistics()) {
+
+<div class="statsDiv">
+    <form [formGroup]="filterStatsForm" (ngSubmit)="onStatsSubmit()">
+
+        <h2>Sort by:</h2>
+        <br>
+
+        <label>From
+            <input formControlName="startDate" type="date">
+        </label>
+
+        <label>To
+            <input formControlName="endDate" type="date">
+        </label>
+        <button type="submit" [disabled]="filterStatsForm.invalid">Show</button>
+    </form>
+
+    @if (statistics(); as stats) {
+
+        Total entries: {{ stats.totalPosts }}
+
+        @for (stat of stats.moodStats; track stat.mood) {
+
+            <p>{{ moodEmoji[stat.mood] }} {{stat.mood }}: {{ stat.percentage }}% ({{ stat.count }}) </p>
+        }
+
+
+    }
+
+</div>    
+
 
 }
 
-@for (post of posts(); track post.id) {
 
-<div class="postEntries">
+    @if (!showStatistics()) {
 
-    <p> {{ moodEmoji[post.mood] }} {{ post.note }}</p>
-    <p>{{ post.createdAt | date: "d MMMM y 'at' HH:mm" : undefined : 'en'}}</p>
 
-</div>
-} @empty {
+        @for (post of posts(); track post.id) {
+        
+        <div class="postEntries">
+        
+            <p> {{ moodEmoji[post.mood] }} {{ post.note }}</p>
+            <p>{{ post.createdAt | date: "d MMMM y 'at' HH:mm" : undefined : 'en'}}</p>
+        
+        </div>
+        } @empty {
+        
+        <p>No entries have been made yet.</p>
+    
+    
+    
+    }
 
-<p>No entries have been made yet.</p>
+    }
 
-}

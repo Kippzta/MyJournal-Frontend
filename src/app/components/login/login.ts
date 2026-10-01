@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Credentials } from '../../models/credentials';
@@ -12,7 +12,7 @@ import { Credentials } from '../../models/credentials';
 })
 export class Login {
 
-  private auth = inject(Auth);
+  private auth = inject(AuthService);
 
   private router = inject(Router);
 
